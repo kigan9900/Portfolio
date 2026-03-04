@@ -222,11 +222,16 @@ body.light-theme .knob { box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
     animation: light-sway 6s infinite ease-in-out;
 }
 
-/* Vintage Braided Bronze Wire */
+/* Vintage Braided Bronze Wire - Psychologically Optimized Height */
 .wire {
     width: clamp(3px, 0.4vw, 5px);
-    /* 22vh ensures it drops safely below your 17vh nav bar */
-    height: clamp(120px, 22vh, 300px); 
+    
+    /* 15vh places the bulb precisely at the boundary of the top visual third.
+       This eliminates visual tension while keeping the bulb visible below the nav.
+       It stops at 80px on tiny screens, and maxes out at 200px on 4K monitors.
+    */
+    height: clamp(80px, 15vh, 200px); 
+    
     background: repeating-linear-gradient(45deg, #5c4e3c, #5c4e3c 3px, #4a3f2f 3px, #4a3f2f 6px);
     box-shadow: inset 2px 0 3px rgba(0,0,0,0.4);
 }
