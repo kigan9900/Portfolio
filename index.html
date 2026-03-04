@@ -3,31 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kigan Patel - Portfolio</title>
+    <title>Kigan Patel | Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-    <div id="pull-chain" class="pull-chain idle-swing">
-        <div class="cord"></div>
-        <div class="knob"></div>
-    </div>
-
-    <div class="page-wrapper">
-        <nav id="desktop-nav">
-            <div class="logo">Kigan Patel</div>
-            <div>
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#experence">Experience</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contacts">Contacts</a></li>
-                </ul>
-            </div>
-            <div class="room-illumination"></div>
+    <div class="mouse-glow"></div>
+    <div class="room-illumination"></div>
 
     <div class="ceiling-light-container">
         <div class="sway-wrapper">
@@ -36,9 +17,73 @@
             <div class="bulb"></div>
         </div>
     </div>
-        </nav>
-        
+
+    <div class="pull-chain" id="pull-chain">
+        <div class="cord"></div>
+        <div class="knob"></div>
+    </div>
+
+    <nav id="desktop-nav" class="nav-transparent">
+        <div class="logo">Kigan Patel</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contacts">Contacts</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero-scroll-container">
+        <div class="sticky-hero">
+            <div class="hero-content">
+                <p class="greeting">Hello, I'm</p>
+                <h1 class="title">Kigan Patel</h1>
+                <p class="subtitle">Bringing interactive ideas to life.</p>
+            </div>
+
+            <div class="scroll-prompt" id="scroll-prompt">
+                <span class="scroll-text">Scroll Down</span>
+                <div class="scroll-arrow">↓</div>
+            </div>
         </div>
+    </section>
+        
+    <main class="main-content">
+        <section id="about" class="hidden">
+            <h2>About Me</h2>
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="mac-btn close"></div>
+                    <div class="mac-btn minimize"></div>
+                    <div class="mac-btn maximize"></div>
+                    <div class="terminal-title">kigan@portfolio:~</div>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    </div>
+            </div>
+        </section>
+
+        <section id="projects" class="hidden">
+            <h2>Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>Project One</h3>
+                    <p>A brief description of something awesome you built.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Project Two</h3>
+                    <p>Another incredible thing you coded from scratch.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacts" class="hidden">
+            <h2>Let's Connect</h2>
+            <div class="content-box">
+                <p>Ready to build something together? Reach out!</p>
+                <a href="mailto:your.email@example.com" class="btn">Email Me</a>
+            </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
