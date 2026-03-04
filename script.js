@@ -1,69 +1,62 @@
-// script.js
-(() => {
-    // Helpers
-    const $ = (sel, ctx = document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+const chain = document.getElementById('pull-chain');
+let isDragging = false;
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // NAV TOGGLE (mobile)
-        const navToggle = $('.nav-toggle');
-        const nav = $('nav') || $('.nav');
-        if (navToggle && nav) {
-            navToggle.addEventListener('click', () => {
-                nav.classList.toggle('open');
-                navToggle.setAttribute('aria-expanded', String(nav.classList.contains('open')));
-            });
-        }
+// Variables to track coordinates
+let startY = 0, startX = 0;
+let currentY = 0, currentX = 0;
+let hasToggled = false; 
 
-        // SMOOTH SCROLL FOR INTERNAL LINKS
-        $$('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', (e) => {
-                const targetId = a.getAttribute('href').slice(1);
-                const target = document.getElementById(targetId);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // close nav if open (mobile)
-                    if (nav && nav.classList.contains('open')) nav.classList.remove('open');
-                }
-            });
-        });
+// 1. Grab the chain
+chain.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    
+    // Permanently remove the idle swinging animation on the first grab
+    chain.classList.remove('idle-swing'); 
+    
+    chain.style.transition = 'none'; 
+    startY = e.clientY - currentY;
+    startX = e.clientX - currentX;
+    
+    chain.setPointerCapture(e.pointerId);
+    hasToggled = false; 
+});
 
-        // ACTIVE NAV LINK ON SCROLL
-        const sections = $$('section[id]');
-        const navLinks = $$('nav a[href^="#"]');
-        if (sections.length && navLinks.length && 'IntersectionObserver' in window) {
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const id = entry.target.id;
-                    const link = $('nav a[href="#' + id + '"]');
-                    if (link) link.classList.toggle('active', entry.isIntersecting);
-                });
-            }, { root: null, rootMargin: '0px 0px -40% 0px', threshold: 0.05 });
-            sections.forEach(s => obs.observe(s));
-        }
+// 2. Drag the chain
+chain.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    
+    currentY = e.clientY - startY;
+    currentX = e.clientX - startX;
+    
+    if (currentY < 0) currentY = 0; // Prevent pushing into ceiling
 
-        // REVEAL ON SCROLL
-        $$('.reveal-on-scroll').forEach(el => el.classList.add('will-reveal'));
-        if ('IntersectionObserver' in window) {
-            const revObs = new IntersectionObserver((entries, o) => {
-                entries.forEach(ent => {
-                    if (ent.isIntersecting) {
-                        ent.target.classList.add('revealed');
-                        o.unobserve(ent.target);
-                    }
-                });
-            }, { threshold: 0.12 });
-            $$('.will-reveal').forEach(el => revObs.observe(el));
-        } else {
-            // fallback
-            $$('.will-reveal').forEach(el => el.classList.add('revealed'));
-        }
+    // Calculate side-to-side swing based on mouse movement
+    let angle = currentX / 5; 
 
-        // PROJECT MODAL (click .project elements with data attributes)
-        const projects = $$('.project[data-title]');
-        let modal = null;
-        function createModal() {
-            modal = document.createElement('div');
-            modal.className = 'project-modal';
-            modal.innerHTML = `
+    // Apply movement
+    chain.style.transform = `translateY(${currentY}px) rotate(${angle}deg)`;
+
+    // TRIGGER THE LIGHT SWITCH
+    // If pulled down more than 80px, toggle to Light Mode
+    if (currentY > 80 && !hasToggled) {
+        document.body.classList.toggle('light-theme');
+        hasToggled = true; // Lock it so it only toggles once per pull
+        
+        if (navigator.vibrate) navigator.vibrate(50); // Mobile vibration
+    }
+});
+
+// 3. Let go of the chain
+chain.addEventListener('pointerup', (e) => {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    currentY = 0;
+    currentX = 0;
+    
+    // Satisfying snap-back
+    chain.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    chain.style.transform = `translateY(0px) rotate(0deg)`;
+    
+    chain.releasePointerCapture(e.pointerId);
+});
