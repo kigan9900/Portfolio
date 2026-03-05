@@ -1196,14 +1196,30 @@ export default function Portfolio() {
     e.preventDefault()
     setFormSubmitting(true)
     try {
-      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formState) })
+      // Formspree endpoint - replace with your own from https://formspree.io
+      const formspreeEndpoint = 'https://formspree.io/f/YOUR_FORM_ID'
+      const response = await fetch(formspreeEndpoint, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, 
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message
+        }) 
+      })
       if (response.ok) {
         setFormSubmitted(true)
         if (soundEnabled) soundEngine.success()
         setShowConfetti(true)
         setTimeout(() => { setFormSubmitted(false); setShowConfetti(false) }, 3000)
         setFormState({ name: '', email: '', message: '' })
+      } else {
+        if (soundEnabled) soundEngine.error()
+        alert('Something went wrong. Please try emailing me directly at ' + developerInfo.email)
       }
+    } catch {
+      if (soundEnabled) soundEngine.error()
+      alert('Something went wrong. Please try emailing me directly at ' + developerInfo.email)
     } finally { setFormSubmitting(false) }
   }
   
