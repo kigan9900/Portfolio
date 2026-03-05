@@ -123,7 +123,6 @@ function typeCode() {
     }
     setTimeout(printLine, 500); 
 }
-
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -133,4 +132,4 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.2 });
 
-hiddenElements.forEach((el) => observer.observe(el));
+hiddenElements.forEach((el) => observer.observe(el)=helloasdjdoajsdiowjdasjdwdjaoifj oiwjf
